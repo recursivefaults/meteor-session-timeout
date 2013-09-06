@@ -1,6 +1,6 @@
 {
     "name": "session-timeout",
-    "description": "",
+    "description": "Simple configurable session timeout for Meteor sessions",
     "homepage": "https://github.com/recursivefaults/meteor-session-timeout",
     "author": "Ryan Latta",
     "version": "0.1.0",
