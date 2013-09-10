@@ -1,7 +1,7 @@
 if Meteor.isServer
     @Sessions = new Meteor.Collection("session_timeouts")
     Meteor.methods( {
-       timeout_heartbeat: (user_id) ->
+       session_heartbeat: (user_id) ->
           check(user_id, String)
           old_session = Sessions.findOne({user_id: user_id})
           if old_session?

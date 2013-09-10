@@ -3,7 +3,7 @@ Package.describe({
 });
 
 Package.on_use(function (api) {
-    api.use('coffeescript', ['server', 'client']);
+    api.use(['coffeescript', 'deps'], ['server', 'client']);
     api.use('jquery', 'client');
     api.use('underscore', 'server');
     api.add_files('server/server_timeout.coffee', 'server')
