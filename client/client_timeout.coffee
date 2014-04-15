@@ -32,4 +32,7 @@ if Meteor.isClient
       if Meteor.user()?.services?.resume?.forceLogout
          #If you have services.resume.forceLogout evaluating to true, you should be logged out
          #The server will purge login tokens while next check
-         Meteor.logout()
+         Meteor.forcedLogout()
+
+   Meteor.forcedLogout = ->
+      Meteor.logout()
