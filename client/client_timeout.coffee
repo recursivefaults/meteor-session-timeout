@@ -29,7 +29,7 @@ if Meteor.isClient
          $('body').off('mousemove')
 
    Deps.autorun () ->
-      if Meteor.user()?.services?.resume.loginTokens.length == 0
-         #If you don't have any more login tokens, you should be logged out
-         #The server will do this as it purges tokens
+      if Meteor.user()?.services?.resume?.forceLogout
+         #If you have services.resume.forceLogout evaluating to true, you should be logged out
+         #The server will purge login tokens while next check
          Meteor.logout()

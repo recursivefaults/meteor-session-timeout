@@ -13,12 +13,18 @@ if Meteor.isServer
 
    interval = Meteor.settings.purgeInterval || 3000
    Meteor.setInterval(() ->
+      loggedOutUsersIds = _.pluck(Meteor.users.find('services.resume.forceLogout': true).fetch(), '_id')
+      if loggedOutUsersIds?.length
+         Meteor.users.update({_id: {$in: loggedOutUsersIds}},
+            {$set: {'services.resume.loginTokens': []},
+            $unset: {'services.resume.forceLogout': ''}})
+
       timeout = Date.now()
       timeout -= Meteor.settings.inactivityTimeout || 300000
-      user_ids = _.pluck(Sessions.find({heartbeat: {$lt: timeout}}).fetch(), 'user_id')
-      if user_ids.length
-         Meteor.users.update({_id: {$in: user_ids}} ,{$set: {'services.resume.loginTokens': []}})
-         Sessions.remove({user_id: {$in: user_ids}})
+      usersToLogOut = _.pluck(Sessions.find({heartbeat: {$lt: timeout}}).fetch(), 'user_id')
+      if usersToLogOut?.length
+         Meteor.users.update({_id: {$in: usersToLogOut}}, {$set: {'services.resume.forceLogout': true}})
+         Sessions.remove({user_id: {$in: usersToLogOut}})
 
    , interval)
 
