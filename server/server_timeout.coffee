@@ -15,10 +15,10 @@ if Meteor.isServer
     Meteor.setInterval(() ->
         timeout = Date.now()
         timeout -= Meteor.settings.inactivityTimeout || 300000
-        users = _.pluck(Sessions.find({heartbeat: {$lt: timeout}}).fetch(), 'user_id')
-        for id in users
-            Meteor.users.update(id ,{$set: {'services.resume.loginTokens': []}})
-            Sessions.remove({user_id: id})
+        user_ids = _.pluck(Sessions.find({heartbeat: {$lt: timeout}}).fetch(), 'user_id')
+        if user_ids.length
+            Meteor.users.update({_id: {$in: user_ids}} ,{$set: {'services.resume.loginTokens': []}})
+            Sessions.remove({user_id: {$in: user_ids}})
 
     , interval)
 
