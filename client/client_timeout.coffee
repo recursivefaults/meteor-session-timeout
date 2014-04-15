@@ -17,7 +17,7 @@ if Meteor.isClient
           $('body').on('mousemove', () ->
             #If you move the mouse, we will update your heartbeat, and
             #remove the event listener so that we don't spam.
-            Meteor.call('session_heartbeat', Meteor.userId())
+            Meteor.call('session_heartbeat')
             $('body').off('mousemove')
           )
         , session_purgeInterval)
