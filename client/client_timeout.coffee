@@ -1,7 +1,7 @@
 if Meteor.isClient
-    session_heartbeat = null
-    session_purgeInterval = Meteor.settings?.purgeInterval || 3000
-    Deps.autorun () ->
+   session_heartbeat = null
+   session_purgeInterval = Meteor.settings?.purgeInterval || 3000
+   Deps.autorun () ->
       ###
       # The way this works is by setting up an interval that will
       # set up a jQuery eventlistener for mouse movements. If that
@@ -12,24 +12,27 @@ if Meteor.isClient
       # the next event that fires.
       ###
       if !session_heartbeat and Meteor.userId()?
-        #You're a user, and we haven't started to watch for activity
-        session_heartbeat = Meteor.setInterval(() ->
-          $('body').on('mousemove', () ->
-            #If you move the mouse, we will update your heartbeat, and
-            #remove the event listener so that we don't spam.
-            Meteor.call('session_heartbeat', Meteor.userId())
-            $('body').off('mousemove')
-          )
-        , session_purgeInterval)
+         #You're a user, and we haven't started to watch for activity
+         session_heartbeat = Meteor.setInterval(() ->
+            $('body').on('mousemove', () ->
+               #If you move the mouse, we will update your heartbeat, and
+               #remove the event listener so that we don't spam.
+               Meteor.call('session_heartbeat')
+               $('body').off('mousemove')
+            )
+         , session_purgeInterval)
       if !Meteor.userId()?
-        #Turn off the heartbeat if there's no user any more
-        Meteor.clearInterval(session_heartbeat)
-        session_heartbeat = null
-        #Make sure we're not needlessly looking for mouse events
-        $('body').off('mousemove')
+         #Turn off the heartbeat if there's no user any more
+         Meteor.clearInterval(session_heartbeat)
+         session_heartbeat = null
+         #Make sure we're not needlessly looking for mouse events
+         $('body').off('mousemove')
 
-    Deps.autorun () ->
-      if Meteor.user()?.services?.resume.loginTokens.length == 0
-        #If you don't have any more login tokens, you should be logged out
-        #The server will do this as it purges tokens
-        Meteor.logout()
+   Deps.autorun () ->
+      if Meteor.user()?.services?.resume?.forceLogout
+         #If you have services.resume.forceLogout evaluating to true, you should be logged out
+         #The server will purge login tokens while next check
+         Meteor.forcedLogout()
+
+   Meteor.forcedLogout = ->
+      Meteor.logout()

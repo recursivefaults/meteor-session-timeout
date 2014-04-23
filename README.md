@@ -9,11 +9,11 @@ Configuration
 In your json settings file, you can add the following two options
 
 `inactivityTimeout` - This is the number of milliseconds a user has of
-inactivity before being forcibly logged out. It defaults to 30000 (5 minutes).
+inactivity before being forcibly logged out. It defaults to 900000 (15 minutes).
 
 `purgeInterval` - This is the number of milliseconds that the package will use 
 in a setInterval to purge all inactive sessions from Meteor. It defaults to
-3000 (3 seconds)
+60000 (1 minute)
 
 
 How it Works
@@ -34,9 +34,10 @@ time.
 
 ### On the client
 
-The client does two things. First, it watches the user's loginTokens and if
-they wind up empty (Because of timeout) they are logged out using the
-Meteor.logout() method.
+The client does two things. First, it watches the `services.resume.forceLogout` value
+in Meteor.users collection. When it changes to a value evaluated to `true`, the user
+is logged out. By default, the user is logged out by `Meteor.logout` method. However,
+you can override `Meteor.forcedLogout` method to implement custom logout logic.
 
 Second, we set a timer to check and see if there is mouse movement happening
 anywhere in the application. If there is we call the heartbeat method. We then
