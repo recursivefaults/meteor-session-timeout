@@ -4,6 +4,11 @@ meteor-session-timeout
 A simple meteorite package to give you session timeouts.
 
 
+Minimum Version
+---------------
+0.7.2
+
+
 Configuration
 -------------
 In your json settings file, you can add the following two options
