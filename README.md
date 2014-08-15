@@ -15,6 +15,8 @@ inactivity before being forcibly logged out. It defaults to 900000 (15 minutes).
 in a setInterval to purge all inactive sessions from Meteor. It defaults to
 60000 (1 minute)
 
+`sessionTimeoutQuery` - A MongoDB query object restricting the set of users affected by session timeout functionality with a MongoDB query.
+
 
 How it Works
 ------------
