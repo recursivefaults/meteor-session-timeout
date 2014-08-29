@@ -1,6 +1,6 @@
 if Meteor.isClient
    session_heartbeat = null
-   session_purgeInterval = Meteor.settings?.purgeInterval || 3000
+   session_purgeInterval = Meteor.settings?.public.purgeInterval || 3000
    Deps.autorun () ->
       ###
       # The way this works is by setting up an interval that will
