@@ -4,6 +4,11 @@ meteor-session-timeout
 A simple meteorite package to give you session timeouts.
 
 
+Minimum Version
+---------------
+0.7.2
+
+
 Configuration
 -------------
 In your json settings file, you can add the following two options
@@ -14,6 +19,8 @@ inactivity before being forcibly logged out. It defaults to 900000 (15 minutes).
 `purgeInterval` - This is the number of milliseconds that the package will use 
 in a setInterval to purge all inactive sessions from Meteor. It defaults to
 60000 (1 minute)
+
+`sessionTimeoutQuery` - A MongoDB query object restricting the set of users affected by session timeout functionality with a MongoDB query.
 
 
 How it Works
