@@ -13,7 +13,7 @@ if Meteor.isServer
 
    interval = Meteor.settings.public?.purgeInterval || 60 * 1000
    Meteor.setInterval(() ->
-      query = Meteor.settings.sessionTimeoutQuery || {}
+      query = Meteor.settings.public?.sessionTimeoutQuery || {}
       query['services.resume.forceLogout'] = true
       loggedOutUsersIds = _.pluck(Meteor.users.find(query).fetch(), '_id')
       if loggedOutUsersIds?.length
